@@ -1,15 +1,15 @@
 {
     "model": "IMSPCI",
     "typeIdentifier": "delorPCI",
-    "label": "Effet de serre et evolution du climat",
-    "short": "Effet de serre",
-    "description": "Effet de serre et evolution du climat",
+    "label": "Mesure masse volume",
+    "short": "De l'or",
+    "description": "Experience sur la masse et le volume",
     "version": "1.0.0",
     "author": "Jean-Philippe Riviere",
     "email": "jean.philippe.riviere@gmail.com",
     "tags": [
         "5eme",
-        "SVT"
+        "Physique"
     ],
     "response": {
         "baseType": "string",
