@@ -2,7 +2,18 @@
 Copyright DEPP © 2017 - Ministère de l'éducation nationale 
 */
 
+
 /*add some style, need to scope (using the typeIdentifier as class prefix) every style declaration to prevent collision */
+
+
+/* Controle DEPP CSS */
+
+.delorInteraction {
+    font-size: unset;
+    text-align: left;
+    background: #fff;
+    font-weight: 100;
+}
 
 .qti-customInteraction .delor .deloransw {
     display: none;
@@ -54,9 +65,9 @@ Copyright DEPP © 2017 - Ministère de l'éducation nationale
 .qti-customInteraction .delor .catgod {
     width: 80px;
     cursor: pointer;
-    margin-top: 0px; /* Not normal */
+    margin-top: 0px;
+    /* Not normal */
 }
-
 
 .qti-customInteraction .delor .tspan5974 {
     font-family: 'courrier';
@@ -100,8 +111,6 @@ Copyright DEPP © 2017 - Ministère de l'éducation nationale
     cursor: pointer;
 }
 
-
-
 .qti-customInteraction .delor .modifeau {
     margin-left: 16px;
     text-align: center;
@@ -133,14 +142,12 @@ Copyright DEPP © 2017 - Ministère de l'éducation nationale
     top: 406px;
     position: absolute;
     left: 50px;
-    
 }
 
 .qti-customInteraction .delor .plus {
     position: absolute;
     top: 65px;
     left: 50px;
-   
 }
 
 
@@ -267,7 +274,7 @@ Copyright DEPP © 2017 - Ministère de l'éducation nationale
 }
 
 .qti-customInteraction .delor input[type=range]::-ms-thumb {
-   /*  margin: -5px; */
+    /*  margin: -5px; */
     box-shadow: 0px 0px 0px #000000;
     border: 1px solid #2497E3;
     height: 18px;
@@ -285,15 +292,14 @@ Copyright DEPP © 2017 - Ministère de l'éducation nationale
     background: #2497E3;
 }
 
-
 .qti-customInteraction .delor .Vslider {
-    margin-left:57px;
+    margin-left: 57px;
     height: 320px!important;
     cursor: pointer;
 }
 
-.ui-slider .ui-state-default{
-    border : 1px solid grey;
+.delorInteraction .ui-slider .ui-state-default {
+    border: 1px solid grey;
     border-radius: 3px;
     margin-left: -6px!important;
     width: 20px!important;
