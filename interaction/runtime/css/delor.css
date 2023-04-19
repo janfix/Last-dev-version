@@ -298,7 +298,7 @@ Copyright DEPP © 2017 - Ministère de l'éducation nationale
     cursor: pointer;
 }
 
-.ui-slider .ui-state-default{
+.qti-customInteraction .delor .ui-slider .ui-state-default{
     border : 1px solid grey;
     border-radius: 3px;
     margin-left: -6px!important;
