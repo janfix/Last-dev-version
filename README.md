@@ -10,10 +10,39 @@ Measuring the weight and volume of a statuette
 
 ## Results
 This PCI is an interactive animation. It collects data to verify if and how the animation was used : 
-It is just marking true or false for the three instruments.
+Each interaction generate the state of the PCI : where is the statuette, what is the water volume, what indicates the scale...
 The results are in JSON format.
-<br/>.balance
-<br/>.becher
-<br/>.vanne
+<br/> example : [{
+	"statuette_balance": false,
+	"statuette_becher": false,
+	"volume_eau": "",
+	"valeur_balance": "0 g"
+}, {
+	"statuette_balance": false,
+	"statuette_becher": false,
+	"volume_eau": "",
+	"valeur_balance": "0 g"
+}, {
+	"statuette_balance": true,
+	"statuette_becher": false,
+	"volume_eau": "",
+	"valeur_balance": "0 g"
+}, {
+	"statuette_balance": false,
+	"statuette_becher": true,
+	"volume_eau": 0,
+	"valeur_balance": "0 g"
+}, {
+	"statuette_balance": false,
+	"statuette_becher": true,
+	"volume_eau": 97,
+	"valeur_balance": "0 g"
+}, {
+	"statuette_balance": true,
+	"statuette_becher": false,
+	"volume_eau": 87,
+	"valeur_balance": "190 g"
+}]
+
 
 <img src="https://www.wiquid.fr/wp-content/uploads/2021/12/cropped-cropped-WonderP50.png" alt="Wiquid" title="Wiquid">

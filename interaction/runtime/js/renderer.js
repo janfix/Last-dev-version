@@ -16,9 +16,10 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['delorPCI/interaction/runtime/js/lib/jquery-ui', 
-        'delorPCI/interaction/runtime/js/assets',
-        'css!delorPCI/interaction/runtime/css/delor'], function($, assets) {
+define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
+    'delorPCI/interaction/runtime/js/assets',
+    'css!delorPCI/interaction/runtime/css/delor'
+], function($, assets) {
     'use strict';
 
     function renderChoices(id, $container, config) {
@@ -35,7 +36,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
         var answbal = "not-use";
         var answbecher = "not-use";
         var svgstring;
-       
+
         svgstring = fillsvg();
 
         $container.find(".svghome").html(svgstring);
@@ -46,13 +47,13 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
         // Create the water valve 
         /* $container.find(".robi").append("<div class='modifeau'>Modifier le volume d'eau</div><br /><input type='range' class='vanne' step='5' min='0' max='140'><div class='moins'>- Moins</div><div  class='plus' >Plus +</div>"); */
 
-        $container.find(".robi").append("<div class='modifeau'>Modifier le volume d'eau</div><br /><div class='Vslider'></div><div class='moins'>- Moins</div><div  class='plus' >Plus +</div><input hidden  type='number' class='vanne'/> "); 
+        $container.find(".robi").append("<div class='modifeau'>Modifier le volume d'eau</div><br /><div class='Vslider'></div><div class='moins'>- Moins</div><div  class='plus' >Plus +</div><input hidden  type='number' class='vanne'/> ");
 
         var $vanne = $(".vanne")
-        
-       //Besher Level
+
+        //Besher Level
         $container.find(".rect5659-1").attr("height", "0px");
-            
+
         var oldVal = 0;
 
         $(".Vslider").slider({
@@ -60,21 +61,21 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
             range: "min",
             min: 0,
             max: 140,
-            step : 5,
-            value:0,
-            slide: function (event, ui) {
+            step: 5,
+            value: 0,
+            slide: function(event, ui) {
                 $vanne.val(ui.value);
                 var newVal = ui.value;
                 if (newVal > oldVal) {
                     $container.find(".rect5659-1-1").show();
                     $container.find(".rect5659-1-1").css("height", "455px");
-                  
+
                 }
                 oldVal = newVal;
-              
+
                 if (answvanne == "not-use") {
-                    $container.find(".vanneAsw").html('"vanne" : true');
-                    answvanne = '"vanne" : true';
+
+                    answvanne = '"volume_eau" : ' + newVal;
                 }
                 obBecher.fillup();
                 // the statue is in the empty beaker
@@ -85,14 +86,17 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                         $container.find(".lecvol").html("Lecture impossible du volume");
                         $container.find(".deborde").show();
                         $container.find(".rect5659-1").attr("height", niveau * 4);
+                        $container.find(".vanneAsw").html('"volume_eau" :' + niveau);
                     } else if (niveau > 85 && niveau < 97) {
                         $container.find(".lecvol").html("Lecture impossible du volume");
                         $container.find(".rect5659-1").attr("height", niveau * 4);
                         $container.find(".deborde").hide();
+                        $container.find(".vanneAsw").html('"volume_eau" :' + niveau);
                     } else {
                         $container.find(".lecvol").html("Volume lu : " + niveau + " mL");
                         $container.find(".deborde").hide();
                         $container.find(".rect5659-1").attr("height", niveau * 4);
+                        $container.find(".vanneAsw").html('"volume_eau" :' + niveau);
                     }
 
                 } else {
@@ -101,32 +105,42 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                         $container.find(".lecvol").html("Lecture impossible du volume");
                         $container.find(".rect5659-1").attr("height", niveau * 4);
                         $container.find(".deborde").hide();
+                        $container.find(".vanneAsw").html('"volume_eau" :' + niveau);
                     } else if (niveau > 97) {
                         console.log(niveau)
                         niveau = 97;
                         $container.find(".lecvol").html("Lecture impossible du volume");
                         $container.find(".deborde").show();
                         $container.find(".rect5659-1").attr("height", niveau * 4);
+                        $container.find(".vanneAsw").html('"volume_eau" :' + niveau);
                     } else {
                         niveau = $vanne.val();
                         $container.find(".lecvol").html("Volume lu : " + niveau + " mL");
                         $container.find(".deborde").hide();
                         $container.find(".rect5659-1").attr("height", niveau * 4);
+                        $container.find(".vanneAsw").html('"volume_eau" :' + niveau);
                     }
                 }
                 console.log($container.find(".rect5659-1").attr("height"), niveau)
-                
+                    //$container.find(".vanneAsw").html("volume_eau :" + newVal)
+
+
             },
-            stop : function(event, ui){
+            stop: function(event, ui) {
                 $container.find(".rect5659-1-1").hide();
+                $container.find(".allElements").append("{" +
+                    $container.find(".balanceAsw").html() + "," +
+                    $container.find(".becherAsw").html() + "," +
+                    $container.find(".vanneAsw").html() + "," +
+                    "\"valeur_balance\" : \"" + $container.find(".tspan5974").html() + //Poids / scale
+                    "\"},");
             }
         });
 
-       
 
         ;
         // Tare button
-        $container.find(".g5982").click(function (event) {
+        $container.find(".g5982").click(function(event) {
             if (statueloc === 1) {
                 tare = -190;
                 $container.find(".tspan5974").html("0 g");
@@ -136,14 +150,14 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
             }
         });
 
-        
+
 
         // Starting Position  : off 
         $container.find(".tspan5974").hide();
         $container.find(".tspan5974").attr("x", 480).attr("y", 1000);
 
         // On / off  button
-        $container.find(".image5962").click(function (event) {
+        $container.find(".image5962").click(function(event) {
             if (onoff === 0) {
                 $container.find(".tspan5974").show();
                 $container.find(".path4217").css("fill", "#00ff00");
@@ -164,7 +178,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
 
         });
 
-       
+
 
         // POO ->  Interaction beaker and statue
         var obBecher = {
@@ -177,7 +191,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
             messageVolume: "",
             remplissage: false, // fill false =  totally empty, if the statue is in the beaker before water: true
 
-            fillup: function () {
+            fillup: function() {
                 // two cases : fill from empty or not.
                 if (this.statue === true) { // from empty
                     this.remplissage = true; // the statue is already in the beaker
@@ -235,9 +249,11 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                         this.seuil2 = false;
                         this.seuil3 = false;
                         this.seuil4 = true;
-                        this.niveau = 97; 
+                        this.niveau = 97;
                     }
                 }
+
+                $container.find(".vanneAsw").html('"volume_eau" :' + this.niveau);
                 return this.niveau;
             },
             mettreStatue: function mettreStatue() {
@@ -259,12 +275,11 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                             //overflow
                             $container.find(".deborde").show();
                             $container.find(".Vslider").slider("value", this.niveau);
-                        }
-                        else {
+                        } else {
                             ajusterNiveau(this.niveau * 4);
                             $container.find(".lecvol").html("Volume lu : " + this.niveau + " mL");
                             $container.find(".Vslider").slider("value", this.niveau);
-                            
+
                         }
                     }
                     if (this.seuil2 === true) {
@@ -275,15 +290,13 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                             ajusterNiveau(this.niveau * 4);
                             //Limit water level when at Max (overborder) and the orus is taken out.
                             $container.find(".Vslider").slider("value", this.niveau);
-                                                  
-                        }
-                        else if (this.niveau > 89 && this.niveau < 98){
-                          $container.find(".lecvol").html("Lecture du volume impossible");  
-                          ajusterNiveau(this.niveau * 4);
-                          console.log(this.niveau)
-                          $container.find(".Vslider").slider("value", this.niveau);
-                        }
-                        else {
+
+                        } else if (this.niveau > 89 && this.niveau < 98) {
+                            $container.find(".lecvol").html("Lecture du volume impossible");
+                            ajusterNiveau(this.niveau * 4);
+                            console.log(this.niveau)
+                            $container.find(".Vslider").slider("value", this.niveau);
+                        } else {
                             console.log(this.niveau)
                             if (this.niveau > 98) { this.niveau = 97; }
                             $container.find(".lecvol").html("Lecture du volume impossible");
@@ -304,14 +317,15 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                         $container.find(".lecvol").html("Lecture du volume impossible");
                         $container.find(".Vslider").slider("value", this.niveau);
                     }
-                   
+
                 }
                 this.statue = true;
+                $container.find(".vanneAsw").html('"volume_eau" :' + this.niveau);
                 return this.niveau;
             },
             sortirStatue: function sortirStatue() {
                 var eauDebit = parseInt($vanne.val());
-                if(this.niveau >97){this.niveau=97}
+                if (this.niveau > 97) { this.niveau = 97 }
                 //adjust water level on statue exit
                 if (this.remplissage === true) {
                     console.log("Remplissage = true")
@@ -325,29 +339,28 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                     } else if (this.seuil2 === true) {
                         eauDebit = $vanne.val();
                         this.niveau = eauDebit;
-                        this.niveau = this.niveau-10;
-                      
+                        this.niveau = this.niveau - 10;
+
                         if (this.niveau > 85) {
-                            if(this.niveau >97){this.niveau=97}
-                            this.niveau = this.niveau-10;
+                            if (this.niveau > 97) { this.niveau = 97 }
+                            this.niveau = this.niveau - 10;
                             console.log("Sortie_Seuil2 : " + this.niveau)
                             $container.find(".lecvol").html("Lecture du volume impossible");
                             $container.find(".deborde").hide();
                             this.remplissage = false;
-                        }
-                        else {
+                        } else {
                             $container.find(".lecvol").html("Volume lu : " + parseInt(this.niveau) + " mL");
                             $container.find(".deborde").hide();
                             this.remplissage = false;
                         }
-                        
+
                         $container.find(".Vslider").slider("value", this.niveau);
 
                     } else if (this.seuil3 === true) {
                         eauDebit = $vanne.val();
                         this.niveau = eauDebit;
-                        if(this.niveau >97){this.niveau=97}
-                        this.niveau = this.niveau-10;
+                        if (this.niveau > 97) { this.niveau = 97 }
+                        this.niveau = this.niveau - 10;
                         console.log("Sortie_Seuil3 : " + this.niveau)
                         $container.find(".Vslider").slider("value", this.niveau);
                         if (this.niveau > 85) {
@@ -355,8 +368,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                             $container.find(".deborde").hide();
                             this.seuil3 = false
                             this.seuil2 = true
-                        }
-                        else {
+                        } else {
                             console.log(this.niveau)
                             $container.find(".lecvol").html("Volume lu : " + parseInt(this.niveau) + " mL");
                             $container.find(".deborde").hide();
@@ -369,17 +381,14 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                         this.niveau = eauDebit - 10;
                         $container.find(".Vslider").slider("value", this.niveau);
                         $container.find(".deborde").hide();
-                        if (this.niveau === 0) { $container.find(".lecvol").html("Volume lu : 0 mL"); }
-                        else if (this.niveau < 0) {
+                        if (this.niveau === 0) { $container.find(".lecvol").html("Volume lu : 0 mL"); } else if (this.niveau < 0) {
                             this.niveau = 0;
                             $container.find(".lecvol").html("Volume lu : 0 mL");
-                        }
-                        else if (this.niveau < 89) {
+                        } else if (this.niveau < 89) {
                             console.log("Sortie_SeuilElse : " + this.niveau)
                             this.niveau = 85;
                             $container.find(".lecvol").html("Lecture du volume impossible");
-                        }
-                        else { $container.find(".lecvol").html("Lecture du volume impossible"); }
+                        } else { $container.find(".lecvol").html("Lecture du volume impossible"); }
                         $container.find(".Vslider").slider("value", this.niveau);
                         this.seuil3 = true;
                         this.remplissage = false;
@@ -400,8 +409,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                             console.log(this.niveau)
                             $container.find(".lecvol").html("Lecture du volume impossible");
                             $container.find(".deborde").hide();
-                        }
-                        else {
+                        } else {
                             $container.find(".lecvol").html("Volume lu : " + parseInt(this.niveau) + " mL");
                             $container.find(".deborde").hide();
                         }
@@ -415,23 +423,20 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                             this.niveau = 90
                             $container.find(".lecvol").html("Lecture du volume impossible");
                             $container.find(".deborde").hide();
-                        } else if(this.niveau > 94 && this.niveau < 97){
-                           
-                            this.niveau = this.niveau -10
+                        } else if (this.niveau > 94 && this.niveau < 97) {
+
+                            this.niveau = this.niveau - 10
                             $container.find(".lecvol").html("Lecture du volume impossible");
                             $container.find(".deborde").hide();
-                           
-                        } 
-                        else {
+
+                        } else {
                             if (this.niveau < 0) {
                                 this.niveau = 0;
                                 $container.find(".lecvol").html("Volume lu : " + parseInt(this.niveau) + " mL");
-                            }
-                            else {
+                            } else {
                                 console.log(this.niveau, "Ajustement a l'équilibre")
                                 this.niveau = this.niveau - 10;
-                                if(this.niveau<86){ $container.find(".lecvol").html("Volume lu : " + parseInt(this.niveau) + " mL");}
-                                else{ $container.find(".lecvol").html("Lecture du volume impossible");}
+                                if (this.niveau < 86) { $container.find(".lecvol").html("Volume lu : " + parseInt(this.niveau) + " mL"); } else { $container.find(".lecvol").html("Lecture du volume impossible"); }
                                 $container.find(".deborde").hide();
                                 this.seuil3 = false;
                                 this.seuil4 = false;
@@ -439,26 +444,23 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                             }
                         }
                         $container.find(".Vslider").slider("value", this.niveau);
-                    } else { 
+                    } else {
                         this.niveau = this.niveau - 10;
                         $container.find(".deborde").hide();
 
-                        if (this.niveau === 0) { $container.find(".lecvol").html("Volume lu : 0 mL"); }
-                        else if (this.niveau < 0) {
+                        if (this.niveau === 0) { $container.find(".lecvol").html("Volume lu : 0 mL"); } else if (this.niveau < 0) {
                             this.niveau = 0;
                             $container.find(".lecvol").html("Volume lu : 0 mL");
-                        }
-                        else if (this.niveau > 89) {
+                        } else if (this.niveau > 89) {
                             this.niveau = this.niveau - 10;
                             $container.find(".lecvol").html("Lecture du volume impossible");
                             this.seuil3 = false;
                             this.seuil4 = false;
                             this.seuil2 = true;
-                        }
-                        else { 
+                        } else {
                             console.log(this.niveau, "Ajustement a l'équilibre 2 SORTIE PROCESS")
                             console.log(this.niveau)
-                            $container.find(".lecvol").html("Lecture du volume impossible"); 
+                            $container.find(".lecvol").html("Lecture du volume impossible");
                             this.seuil3 = false;
                             this.seuil4 = false;
                             this.seuil2 = true;
@@ -469,19 +471,29 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                 }
                 ajusterNiveau(this.niveau * 4);
                 this.statue = false;
+
+                $container.find(".vanneAsw").html('"volume_eau" :' + this.niveau);
+
+
+
                 return this.niveau;
             }
         };
 
         function ajusterNiveau(niveauVisuel) {
             if (niveauVisuel < 0) { niveauVisuel = 0; }
-            if(niveauVisuel>389){ 
+            if (niveauVisuel > 389) {
                 niveauVisuel = 389;
-                $container.find(".Vslider").slider("value",97) ;
+                $container.find(".Vslider").slider("value", 97);
             }
             $container.find(".rect5659-1").attr("height", niveauVisuel);
 
         }
+
+
+
+
+
 
         // **************Orus drag and drop*****************************
         draganddroper();
@@ -498,7 +510,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
 
                     var dndHandler = this;
 
-                    element.addEventListener('dragstart', function (e) {
+                    element.addEventListener('dragstart', function(e) {
                         dndHandler.draggedElement = e.target;
                         e.dataTransfer.setData('text/plain', null); // needed for Firefox
 
@@ -509,20 +521,20 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                 applyDropEvents: function applyDropEvents(dropper) {
 
 
-                    dropper.addEventListener('dragover', function (e) {
+                    dropper.addEventListener('dragover', function(e) {
                         e.preventDefault();
 
                         $container.find(this).addClass('drop_hover');
                     }, false);
 
-                    dropper.addEventListener('dragleave', function () {
+                    dropper.addEventListener('dragleave', function() {
                         $container.find(this).removeClass('drop_hover');
 
                     });
 
                     var dndHandler = this;
 
-                    dropper.addEventListener('drop', function (e) {
+                    dropper.addEventListener('drop', function(e) {
 
                         var target = e.target,
                             draggedElement = dndHandler.draggedElement,
@@ -546,13 +558,18 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                                 obBecher.sortirStatue();
                             }
 
+
                             statueloc = 0;
+
+                            $container.find(".balanceAsw").html('"statuette_balance" : false');
+                            $container.find(".becherAsw").html('"statuette_becher" : false');
 
                         }
                         if (cible == "zonepese") {
                             if (answbal == "not-use") {
-                                $container.find(".balanceAsw").html('"balance" : true');
-                                answbal = '"balance" : true';
+                                $container.find(".balanceAsw").html('"statuette_balance" : true');
+                                $container.find(".becherAsw").html('"statuette_becher" : false');
+                                answbal = '"statuette_balance" : true';
                             }
                             $container.find(".catgod").css("left", "47px").css("top", "64px");
                             obBecher.statue = false;
@@ -563,11 +580,15 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                             if (onoff === 1 && tare === 0) { $container.find(".tspan5974").html("190 g"); } else if (onoff === 0) {
                                 $container.find(".tspan5974").html("0 g");
                             } else if (onoff === 1 && tare < 0) { $container.find(".tspan5974").html("0 g"); } else { tare = 0; }
+
+                            $container.find(".balanceAsw").html('"statuette_balance" : true');
+                            $container.find(".becherAsw").html('"statuette_becher" : false');
                         }
                         if (cible == "zoneplonge") {
                             if (answbecher == "not-use") {
-                                $container.find(".becherAsw").html('"becher" : true');;
-                                answbecher = '"becher" : true';
+                                $container.find(".becherAsw").html('"statuette_becher" : true');
+                                $container.find(".balanceAsw").html('"statuette_balance" : false');
+                                answbecher = '"statuette_becher" : true';
                             }
                             var poidssta2 = $container.find(".tspan5974").text();
                             if (statueloc == 1 && poidssta2 == "0 g" && onoff == 1) {
@@ -579,6 +600,9 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                             obBecher.statue = true;
                             if (statueloc < 2) { obBecher.mettreStatue(); }
                             statueloc = 2;
+
+                            $container.find(".becherAsw").html('"statuette_becher" : true');
+                            $container.find(".balanceAsw").html('"statuette_balance" : false');
                         }
 
                         while (target.className.indexOf('dropper') == -1) {
@@ -592,6 +616,15 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                         dndHandler.applyDragEvents(clonedElement);
 
                         draggedElement.parentNode.removeChild(draggedElement);
+
+                        console.log("DROPPER LISTENER")
+
+                        $container.find(".allElements").append("{" +
+                            $container.find(".balanceAsw").html() + "," +
+                            $container.find(".becherAsw").html() + "," +
+                            $container.find(".vanneAsw").html() + "," +
+                            "\"valeur_balance\" : \"" + $container.find(".tspan5974").html() + //Poids / scale
+                            "\"},");
 
                     });
 
@@ -643,7 +676,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
 
     }
 
-   
+
 
     return {
         render: function(id, container, config, assetManager) {
@@ -651,8 +684,8 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
             var $container = $(container);
 
             renderChoices(id, $container, config);
-            
+
         },
-       
+
     };
 });

@@ -86,11 +86,13 @@ define([
         getResponse: function() {
 
             var $container = $(this.dom),
-            balanceAsw = $container.find('.balanceAsw').text(),
-            becherAsw = $container.find('.becherAsw').text(),
-            vanneAsw = $container.find('.vanneAsw').text(),
-            value = '{'+balanceAsw+','+becherAsw+','+vanneAsw+'}';
-           
+                /* balanceAsw = $container.find('.balanceAsw').text(),
+                becherAsw = $container.find('.becherAsw').text(),
+                vanneAsw = $container.find('.vanneAsw').text(), */
+                allements = $container.find('.allElements').text();
+            allements = allements.substring(0, allements.length - 1);
+            var value = '[' + allements + ']';
+
 
             return { base: { string: value } };
         },
