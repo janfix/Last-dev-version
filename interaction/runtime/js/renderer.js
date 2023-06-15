@@ -56,6 +56,18 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
 
         var oldVal = 0;
 
+
+        function getScaleVal() {
+            var scaleVal
+
+            if (onoff === 1) {
+                scaleVal = $container.find(".tspan5974").html()
+            } else {
+                scaleVal = ""
+            }
+            return scaleVal;
+        }
+
         $(".Vslider").slider({
             orientation: "vertical",
             range: "min",
@@ -86,7 +98,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                         $container.find(".lecvol").html("Lecture impossible du volume");
                         $container.find(".deborde").show();
                         $container.find(".rect5659-1").attr("height", niveau * 4);
-                        $container.find(".vanneAsw").html('"volume_eau" :' + niveau);
+                        $container.find(".vanneAsw").html('"volume_eau" :' + (niveau + 2)); //Get 99 to answer
                     } else if (niveau > 85 && niveau < 97) {
                         $container.find(".lecvol").html("Lecture impossible du volume");
                         $container.find(".rect5659-1").attr("height", niveau * 4);
@@ -112,7 +124,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                         $container.find(".lecvol").html("Lecture impossible du volume");
                         $container.find(".deborde").show();
                         $container.find(".rect5659-1").attr("height", niveau * 4);
-                        $container.find(".vanneAsw").html('"volume_eau" :' + niveau);
+                        $container.find(".vanneAsw").html('"volume_eau" :' + (niveau + 2)); //Get 99 to answer
                     } else {
                         niveau = $vanne.val();
                         $container.find(".lecvol").html("Volume lu : " + niveau + " mL");
@@ -132,7 +144,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                     $container.find(".balanceAsw").html() + "," +
                     $container.find(".becherAsw").html() + "," +
                     $container.find(".vanneAsw").html() + "," +
-                    "\"valeur_balance\" : \"" + $container.find(".tspan5974").html() + //Poids / scale
+                    "\"valeur_balance\" : \"" + getScaleVal() + //Poids / scale
                     "\"},");
             }
         });
@@ -175,6 +187,13 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                 tare = 0;
                 $container.find(".tspan5974").html(tare + " g");
             }
+
+            $container.find(".allElements").append("{" +
+                $container.find(".balanceAsw").html() + "," +
+                $container.find(".becherAsw").html() + "," +
+                $container.find(".vanneAsw").html() + "," +
+                "\"valeur_balance\" : \"" + getScaleVal() + //Poids / scale
+                "\"},");
 
         });
 
@@ -253,7 +272,13 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                     }
                 }
 
-                $container.find(".vanneAsw").html('"volume_eau" :' + this.niveau);
+
+                if (this.niveau == 97) {
+                    $container.find(".vanneAsw").html('"volume_eau" :' + (this.niveau + 2)); //Ans reach 99
+                } else {
+                    $container.find(".vanneAsw").html('"volume_eau" :' + this.niveau);
+                }
+
                 return this.niveau;
             },
             mettreStatue: function mettreStatue() {
@@ -320,7 +345,13 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
 
                 }
                 this.statue = true;
-                $container.find(".vanneAsw").html('"volume_eau" :' + this.niveau);
+
+                if (this.niveau == 97) {
+                    $container.find(".vanneAsw").html('"volume_eau" :' + (this.niveau + 2)); //Ans reach 99
+                } else {
+                    $container.find(".vanneAsw").html('"volume_eau" :' + this.niveau);
+                }
+
                 return this.niveau;
             },
             sortirStatue: function sortirStatue() {
@@ -472,7 +503,11 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                 ajusterNiveau(this.niveau * 4);
                 this.statue = false;
 
-                $container.find(".vanneAsw").html('"volume_eau" :' + this.niveau);
+                if (this.niveau == 97) {
+                    $container.find(".vanneAsw").html('"volume_eau" :' + (this.niveau + 2)); //Ans reach 99
+                } else {
+                    $container.find(".vanneAsw").html('"volume_eau" :' + this.niveau);
+                }
 
 
 
@@ -623,7 +658,7 @@ define(['delorPCI/interaction/runtime/js/lib/jquery-ui',
                             $container.find(".balanceAsw").html() + "," +
                             $container.find(".becherAsw").html() + "," +
                             $container.find(".vanneAsw").html() + "," +
-                            "\"valeur_balance\" : \"" + $container.find(".tspan5974").html() + //Poids / scale
+                            "\"valeur_balance\" : \"" + getScaleVal() + //Poids / scale
                             "\"},");
 
                     });
