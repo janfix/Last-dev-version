@@ -16,17 +16,17 @@ The results are in JSON format.
 	"statuette_balance": false,
 	"statuette_becher": false,
 	"volume_eau": "",
-	"valeur_balance": "0 g"
+	"valeur_balance": "" //Scale IS OFF
 }, {
 	"statuette_balance": false,
 	"statuette_becher": false,
 	"volume_eau": "",
-	"valeur_balance": "0 g"
+	"valeur_balance": ""
 }, {
-	"statuette_balance": true,
+	"statuette_balance": false,
 	"statuette_becher": false,
 	"volume_eau": "",
-	"valeur_balance": "0 g"
+	"valeur_balance": "0 g" //Scale is ON
 }, {
 	"statuette_balance": false,
 	"statuette_becher": true,
